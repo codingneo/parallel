@@ -1,5 +1,4 @@
 #parallel
-========
 
 A go library to simplify concurrency programming. It is non-trival to write 
 concurrency program. This library aims to simplify the process of writing 
