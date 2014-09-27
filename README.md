@@ -20,3 +20,11 @@ func main() {
                 func(i int) { fmt.Println(data[i]) })
 }
 
+## Documentation
+
+### APIs
+* [`For`](#For)
+* [`Map`](#Map)
+* [`FlatMap`](#FlatMap)
+* [`Filter`](#Filter)
+* [`Reduce`](#Reduce)
