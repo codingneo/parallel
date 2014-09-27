@@ -2,19 +2,27 @@ package parallel
 
 import (
     "fmt"
-    "time"
-    "math/rand"
 )
 
-func For(start, end int, block func(int)) {
+type Iterator struct {
+    Start int
+    End int
+    Step int
+}
+
+func For(iter Iterator, block func(int)) {
     factor := 4
-    var part = float32((end-start)/factor)
+    if iter.Step == 0 {
+        iter.Step = 1
+    }
+    var part = float32((iter.End-iter.Start)/(iter.Step*factor))
     
     c := make(chan int)
     for i := 0; i < factor; i++ {
     	go func(i int) {
-            for k := start+int(part)*i; k < int(part)*(i+1); k++ {
-            	time.Sleep(time.Duration(rand.Intn(1e3)) * time.Millisecond)
+            for k := iter.Start+int(part)*i*iter.Step; 
+                k < int(part)*(i+1)*iter.Step; 
+                k = k + iter.Step {
                 block(k)
             }
             c <- i
@@ -26,3 +34,4 @@ func For(start, end int, block func(int)) {
         fmt.Printf("%d part finished ...\n", k)
     }
 }
+
