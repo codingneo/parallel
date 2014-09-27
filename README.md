@@ -1,4 +1,4 @@
-parallel
+#parallel
 ========
 
 A go library to simplify concurrency programming. It is non-trival to write 
