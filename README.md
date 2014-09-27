@@ -22,7 +22,6 @@ func main() {
 ```
 
 ## Documentation
-
 ### APIs
 * [`For`](#For)
 * [`Map`](#Map)
