@@ -19,6 +19,7 @@ func main() {
   parallel.For(parallel.Iterator{0, 20, 2},
                 func(i int) { fmt.Println(data[i]) })
 }
+```
 
 ## Documentation
 
