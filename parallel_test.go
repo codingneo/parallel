@@ -19,9 +19,8 @@ func TestFor(t *testing.T) {
 func TestMap(t *testing.T) {
     data := []int{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 
-    var fn GenericFunc
-    fn.Func = func(val int) float32 { return float32(val) / 2.0 }
-    result := Map(data, fn)
+    
+    result := Map(data, func(val int) float32 { return float32(val) / 2.0 })
     out := result.Interface().([]float32)
     fmt.Println(out[0]+out[1])
 

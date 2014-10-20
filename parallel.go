@@ -11,10 +11,6 @@ type Iterator struct {
     Step int
 }
 
-type GenericFunc struct {
-    Func interface{}
-}
-
 //function types
 type mapf func(interface{}) interface{}
 type reducef func(interface{}, interface{}) interface{}
@@ -49,13 +45,13 @@ func For(iter Iterator, block func(int)) {
 }
 
 
-func Map(in interface{}, fn GenericFunc) reflect.Value {
+func Map(in interface{}, fn interface{}) reflect.Value {
     // TODO: dynamic choose parallel factor
     factor := 4
 
     val := reflect.ValueOf(in)
-    f := reflect.ValueOf(fn.Func)
-    ftype := reflect.ValueOf(fn.Func).Type()
+    f := reflect.ValueOf(fn)
+    ftype := reflect.ValueOf(fn).Type()
     out := reflect.MakeSlice(
             reflect.SliceOf(ftype.Out(0)),
             val.Len(), val.Len())
