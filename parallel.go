@@ -44,8 +44,7 @@ func For(iter Iterator, block func(int)) {
     }
 }
 
-
-func Map(in interface{}, fn interface{}) reflect.Value {
+func Map(in interface{}, fn interface{}) interface{} {
     // TODO: dynamic choose parallel factor
     factor := 4
 
@@ -74,5 +73,5 @@ func Map(in interface{}, fn interface{}) reflect.Value {
         fmt.Printf("%d part finished ...\n", k)
     }
 
-    return out
+    return out.Interface()
 }
