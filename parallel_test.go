@@ -19,12 +19,14 @@ func TestFor(t *testing.T) {
 func TestMap(t *testing.T) {
     data := []int{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 
-    result := Map(data, func(val interface{}) interface{} { return val.(int) * val.(int) })
-    out := result.Interface().([]interface{})
-    fmt.Println(out[0].(int)+out[1].(int))
+    var fn GenericFunc
+    fn.Func = func(val int) float32 { return float32(val) / 2.0 }
+    result := Map(data, fn)
+    out := result.Interface().([]float32)
+    fmt.Println(out[0]+out[1])
 
-    if out[1].(int) != 4 {
-        t.Error("Expected data[0]==4, got ", out[1].(int))
+    if out[1] != 1.0 {
+        t.Error("Expected data[0]==4, got ", out[1])
     }
 
 }
