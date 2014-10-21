@@ -2,7 +2,8 @@ package parallel
 
 import (
     "fmt"
-    "reflect"
+    "runtime"
+    "math"
 )
 
 type Iterator struct {
@@ -20,17 +21,21 @@ type filterf func(interface{}) bool
 
 // Parallel For Loop 
 func For(iter Iterator, block func(int)) {
-    factor := 4
+    runtime.GOMAXPROCS(runtime.NumCPU())
+    nCPU := runtime.NumCPU()
+
     if iter.Step == 0 {
         iter.Step = 1
     }
-    var part = float32((iter.End-iter.Start)/(iter.Step*factor))
+    var part = math.Ceil(float64(iter.End-iter.Start)/float64(iter.Step*nCPU))
     
     c := make(chan int)
-    for i := 0; i < factor; i++ {
+    for i := 0; i < nCPU; i++ {
     	go func(i int) {
+            ubound := math.Min(float64(int(part)*(i+1)*iter.Step),
+                                float64(iter.End))
             for k := iter.Start+int(part)*i*iter.Step; 
-                k < int(part)*(i+1)*iter.Step; 
+                k < int(ubound); 
                 k = k + iter.Step {
                 block(k)
             }
@@ -38,40 +43,8 @@ func For(iter Iterator, block func(int)) {
     	}(i)
     }
     
-    for i := 0; i < factor; i++ {
+    for i := 0; i < nCPU; i++ {
         k := <- c
         fmt.Printf("%d part finished ...\n", k)
     }
-}
-
-func Map(in interface{}, fn interface{}) interface{} {
-    // TODO: dynamic choose parallel factor
-    factor := 4
-
-    val := reflect.ValueOf(in)
-    f := reflect.ValueOf(fn)
-    ftype := reflect.ValueOf(fn).Type()
-    out := reflect.MakeSlice(
-            reflect.SliceOf(ftype.Out(0)),
-            val.Len(), val.Len())
-
-    var part = float32(val.Len()/factor)
-    
-    c := make(chan int)
-    for i := 0; i < factor; i++ {
-        go func(i int) {
-            for k := int(part)*i; k < int(part)*(i+1); k++ {
-                res := f.Call([]reflect.Value{reflect.ValueOf(val.Index(k).Interface())})
-                out.Index(k).Set(reflect.ValueOf(res[0].Interface()))
-            }
-            c <- i
-        }(i)
-    }
-    
-    for i := 0; i < factor; i++ {
-        k := <- c
-        fmt.Printf("%d part finished ...\n", k)
-    }
-
-    return out.Interface()
 }
