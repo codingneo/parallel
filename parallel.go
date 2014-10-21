@@ -20,7 +20,7 @@ type filterf func(interface{}) bool
 
 
 // Parallel For Loop 
-func For(iter Iterator, block func(int)) {
+func (iter Iterator) For(block func(int)) {
     runtime.GOMAXPROCS(runtime.NumCPU())
     nCPU := runtime.NumCPU()
 

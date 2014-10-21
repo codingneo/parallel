@@ -9,7 +9,7 @@ import (
 func TestFor(t *testing.T) {
     data := []int{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 
-    For(Iterator{0, 15, 1},
+    Iterator{0,15,1}.For(
         func(i int) { data[i] = data[i]*2 })
 
     if data[0] != 2 {
@@ -31,7 +31,7 @@ func TestPerformance(t *testing.T) {
     fmt.Printf("The call1 took %v to run.\n", t1.Sub(t0))
 
     t0 = time.Now()
-    For(Iterator{Start: 0, End: len},
+    Iterator{0,len,1}.For(
         func(i int) { data[i] = 4.0 })
     t1 = time.Now()
     fmt.Printf("The call2 took %v to run.\n", t1.Sub(t0))
