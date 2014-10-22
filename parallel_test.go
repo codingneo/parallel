@@ -17,6 +17,22 @@ func TestFor(t *testing.T) {
     }
 }
 
+func TestEmbededFor(t *testing.T) {
+    data := make([][]int, 10)
+    Iterator{0,10,1}.For(
+        func(i int) {
+            data[i] = make([]int, 10)
+            Iterator{0,10,1}.For(
+                func(j int) {
+                    data[i][j] = i+j
+                })
+        })
+
+    if data[0][2] != 2 {
+        t.Error("Expected data[0][2]==2, got", data[0][2])
+    }
+}
+
 func TestPerformance(t *testing.T) {
     len := 100000000
     data := make([]int, len)
