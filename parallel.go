@@ -12,24 +12,21 @@ type Iterator struct {
     Step int
 }
 
-//function types
-type mapf func(interface{}) interface{}
-type reducef func(interface{}, interface{}) interface{}
-type filterf func(interface{}) bool
-
-
+func config() int {
+    runtime.GOMAXPROCS(runtime.NumCPU())
+    return runtime.NumCPU()    
+}
 
 // Parallel For Loop 
 func (iter Iterator) For(block func(int)) {
-    runtime.GOMAXPROCS(runtime.NumCPU())
-    nCPU := runtime.NumCPU()
+    nCPU := config()
 
     if iter.Step == 0 {
         iter.Step = 1
     }
     var part = math.Ceil(float64(iter.End-iter.Start)/float64(iter.Step*nCPU))
     
-    c := make(chan int)
+    c := make(chan int, nCPU)
     for i := 0; i < nCPU; i++ {
     	go func(i int) {
             ubound := math.Min(float64(int(part)*(i+1)*iter.Step),
