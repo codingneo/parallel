@@ -44,6 +44,7 @@ type Iterator struct {
 ```
 
 Iterator struct defines the necessary information about a for loop. 
+
 __Arguments__
 
 * `Start` - It defines the starting index of a for loop.
@@ -61,6 +62,7 @@ For function is a method of an Iterator struct. To call the For function, you
 need to create an Iterator struct (very often as a struct literal) and invoke 
 For method using a chain invokation. The single parameter is a function with 
 single input parameter of type int.
+
 __Arguments__
 
 * `block` - The actually function to execute with index i. It is a function 
