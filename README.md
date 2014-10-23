@@ -14,7 +14,6 @@ go get github.com/codingneo/parallel
 
 ```go
 import (
-	"fmt"
 	"github.com/codingneo/parallel"
 )
 
@@ -22,7 +21,7 @@ func main() {
     data := []int{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 
     parallel.Iterator{0,15,1}.For(
-        func(i int) { data[i] = data[i]*2 })
+        func(i int) { data[i] = data[i]*2 } )
 }
 ```
 
