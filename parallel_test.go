@@ -17,7 +17,7 @@ func TestFor(t *testing.T) {
     }
 }
 
-func TestEmbededFor(t *testing.T) {
+func TestNestedFor(t *testing.T) {
     data := make([][]int, 10)
     Iterator{0,10,1}.For(
         func(i int) {
