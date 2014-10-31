@@ -31,6 +31,7 @@ func main() {
 
 ### APIs
 * [`For`](#For)
+* [`Parallelize`](#Parallelize)
 
 <a name="Iterator" />
 ### Iterator
@@ -66,3 +67,25 @@ __Arguments__
 
 * `block` - The actually function to execute with index i. It is a function 
 closure which can manipulate any object in the context.
+
+
+<a name="Parallelize" />
+### Parallelize
+```go
+func (iter Iterator) Parallelize(block func(int, int) float64)
+```
+
+Parallelize function is a method of an Iterator struct. It is used to convert 
+a sequential for loop into a parallel version by using goroutine. To call the 
+this function, you need to create an Iterator struct (very often as a struct 
+literal) and invoke Parallelize method using a chain invokation. Different 
+from For function, you need to write a function exactly same as your sequential 
+for loop with parametrized start and end point. The for loop right now is only 
+to support float64 output. For other type of return, I haven't find a good 
+design on support it using interface{} and type assertion.
+
+__Arguments__
+
+* `block` - The actually function to execute sequential for loop with parameterised 
+start/end index. It is a function closure which can manipulate any object in 
+the context.
